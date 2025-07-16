@@ -61,7 +61,34 @@ terraform-template/
 ---
 
 💻 Terraform Commands Guide
-<pre> <details open> <summary><strong>⚙️ Common Terraform CLI Commands</strong></summary> 📦 <strong>Initialize Terraform directory</strong> terraform init 🔍 <strong>Preview changes before applying</strong> terraform plan 🚀 <strong>Apply infrastructure changes</strong> terraform apply 🔥 <strong>Destroy all managed infrastructure</strong> terraform destroy 🧹 <strong>Format Terraform files</strong> terraform fmt ✅ <strong>Validate configuration files</strong> terraform validate 📋 <strong>Show current state (optional)</strong> terraform show </details> </pre>
+
+<pre>
+<details open>
+<summary><strong>⚙️ Common Terraform CLI Commands</strong></summary>
+
+📦 <strong>Initialize Terraform directory</strong>  
+terraform init
+
+🔍 <strong>Preview changes before applying</strong>  
+terraform plan
+
+🚀 <strong>Apply infrastructure changes</strong>  
+terraform apply
+
+🔥 <strong>Destroy all managed infrastructure</strong>  
+terraform destroy
+
+🧹 <strong>Format Terraform files</strong>  
+terraform fmt
+
+✅ <strong>Validate configuration files</strong>  
+terraform validate
+
+📋 <strong>Show current state (optional)</strong>  
+terraform show
+
+</details>
+</pre>
 
 ---
 
