@@ -6,24 +6,30 @@ This project provisions a modular, dynamic, and scalable Google Cloud Platform (
 
 ---
 
-## 📁 Project Structure
+<pre>
+<details open>
+<summary>📁 <strong>Project Structure</strong></summary>
 
 terraform-template/
-├── main.tf # Root module orchestrating all resources
-├── terraform.tfvars # All configurable variables
-├── variables.tf # Input variables for root module
+├── main.tf                     # Root module orchestrating all resources
+├── terraform.tfvars            # All configurable variables
+├── variables.tf                # Input variables for root module
 ├── modules/
-│ ├── vpc/ # VPC network module
-│ ├── subnet/ # Subnet module
-│ ├── firewall/ # Firewall rules module
-│ ├── cloudrouter/ # Cloud Router module
-│ ├── cloudnat/ # Cloud NAT module
-│ ├── clouddns/ # Cloud DNS module
-│ ├── storage/ # Cloud Storage buckets
-│ ├── vm-mig/ # Compute Instance Group module
-│ ├── loadbalancer/ # Load balancer module
-│ ├── cloudsql/ # Cloud SQL module
-│ └── logging-sink/ # Logging sink module
+│   ├── vpc/                    # VPC network module
+│   ├── subnet/                 # Subnet module
+│   ├── firewall/               # Firewall rules module
+│   ├── cloudrouter/            # Cloud Router module
+│   ├── cloudnat/               # Cloud NAT module
+│   ├── clouddns/               # Cloud DNS module
+│   ├── storage/                # Cloud Storage buckets
+│   ├── vm-mig/                 # Compute Instance Group module
+│   ├── loadbalancer/           # Load Balancer module
+│   ├── cloudsql/               # Cloud SQL module
+│   └── logging-sink/           # Logging sink module
+
+</details>
+</pre>
+
 
 
 ---
@@ -61,3 +67,5 @@ You can easily:
 - Extend modules as per future infrastructure needs
 
 ⚠️ Note: Not all input values are defined in the current setup. Only the modules required for the current deployment are enabled. 
+
+
