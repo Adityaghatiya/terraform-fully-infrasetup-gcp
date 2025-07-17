@@ -85,3 +85,13 @@ module "gke_autopilot"{
   autopilot_cluster=var.autopilot_cluster
   network= module.vpc.vpc_self_link
 }
+
+module "autohealing"{
+source="./modules/autohealing"
+autohealing=var.autohealing
+}
+
+module "instance_group"{
+source="./modules/managedgroup"
+instance_group=var.instance_group
+}

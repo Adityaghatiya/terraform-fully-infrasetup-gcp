@@ -171,4 +171,46 @@ autopilot_cluster = [
   }
 ]
 
+autohealing = [
+   {
+    name                = "autoheal-check"
+    check_interval_sec  = 5
+    timeout_sec         = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 3
+    request_path        = "/healthz"
+    port                = 8080
+  }
+]
+
+instance_group = [
+  {
+    name               = "web-instance-group"
+    base_instance_name = "web-base"
+    zone               = "us-central1-a"
+    instance_template  = "template-1e"
+    description        = "Web server MIG"
+    
+    metadata = {
+      metadata_key = "startup-script=echo Hello World"
+    }
+
+    labels = {
+      label_key = "env"
+    }
+
+    #target_pools = "projects/my-project/regions/us-central1/targetPools/web-pool"
+    target_size  = 2
+
+    named_port = {
+      name = "http"
+      port = 8080
+    }
+
+    auto_healing_policies = {
+      health_check      = "autoheal-check"
+      initial_delay_sec = 60
+    }
+  }
+]
 

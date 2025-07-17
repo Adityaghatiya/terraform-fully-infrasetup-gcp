@@ -1,54 +1,40 @@
 #ref:- https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance_group_manager.html
 
-#for health check
-resource "google_compute_health_check" "autohealing" {
-  for_each=(for hlt_ck in var.autohealing:hlt_ck.name=hlt_ck)
-  name                = each.name
-  check_interval_sec  = each.check_interval_sec
-  timeout_sec         =each.timeout_sec
-  healthy_threshold   = each.healthy_threshold
-  unhealthy_threshold = each.unhealthy_threshold # 50 seconds
-
-  http_health_check {
-    request_path = each.request_path
-    port         = each.port
-  }
-}
 
 #for managed instance group
-resource "google_compute_instance_group_manager" "appserver" {
-  for_each=(for igm in appserver:igm.name=igm)
-  name = each.name
+resource "google_compute_instance_group_manager" "instance_group" {
+  for_each={for igm in var.instance_group:igm.name=>igm}
+  name = each.value.name
 
-  base_instance_name = each.base_instance_name
-  zone               =each.zone
+  base_instance_name =  each.value.base_instance_name
+  zone               = each.value.zone
 
   version {
    # instance_template  = google_compute_instance_template.appserver.self_link_unique
-     instance_template  = each.instance_template
+     instance_template  = each.value.instance_template
   }
   
-  description= each.description
+  description= each.value.description
 
   all_instances_config {
     metadata = {
-      metadata_key = "metadata_value"
+      metadata_key =  each.value.metadata_key
     }
     labels = {
-      label_key = "label_value"
+      label_key = each.value.label_key
     }
   }
 
-  target_pools = [google_compute_target_pool.appserver.id]
-  target_size  = 2
+  #target_pools = [each.value.target_pools]
+  target_size  = each.value.target
 
   named_port {
-    name = "customhttp"
-    port = 8888
+    name = each.value.name
+    port =  each.value.port
   }
 
   auto_healing_policies {
-    health_check      = google_compute_health_check.autohealing.id
-    initial_delay_sec = 300
+    health_check      = each.value
+    initial_delay_sec = each.value
   }
 }

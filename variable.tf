@@ -173,3 +173,44 @@ variable "autopilot_cluster" {
     subnetwork=string
   }))
 }
+
+variable "autohealing" {
+  default     = null
+  description = "Health check configurations"
+  type = list(object({
+    name                = string
+    check_interval_sec  = number
+    timeout_sec         = number
+    healthy_threshold   = number
+    unhealthy_threshold = number
+    request_path        = string
+    port                = number
+  }))
+}
+
+
+ vvariable "instance_groups" {
+  type = list(object({
+    name                = string
+    base_instance_name = string
+    zone               = string
+    instance_template  = string
+    description        = string
+    target             = number
+
+    all_instances_config = object({
+      metadata = map(string)
+      labels   = map(string)
+    })
+
+    named_port = object({
+      name = string
+      port = number
+    })
+
+    auto_healing_policies = object({
+      health_check      = string
+      initial_delay_sec = number
+    })
+  }))
+}
