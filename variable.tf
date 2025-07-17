@@ -125,3 +125,51 @@ variable "buckets" {
     })), [])
   }))
 }
+
+variable "templates" {
+  type = list(object({
+    name                 = string
+    description          = string
+    tags                 = list(string)
+    labels               = map(string)
+    instance_description = string
+    machine_type         = string
+    project_id           = string
+    region               = string
+
+    disks = list(object({
+      source_image      = string
+      auto_delete       = bool
+      boot              = bool
+      resource_policies = list(string)
+    }))
+
+    scheduling = object({
+      automatic_restart   = bool
+      on_host_maintenance = string
+    })
+
+    network_interfaces = list(object({
+      network    = string
+      subnetwork = string
+    }))
+
+    service_account = object({
+      email  = string
+      scopes = list(string)
+    })
+  }))
+}
+
+variable "autopilot_cluster" {
+  description = "List of GKE Autopilot clusters"
+  type = list(object({
+    name                      = string
+    location                  = string
+    enterprise_config         = object({ desired_tier = string })   # Optional, or use null
+    deletion_protection       = optional(bool, false)
+    cluster_ipv4_cidr_block   = string
+    services_ipv4_cidr_block  = string
+    subnetwork=string
+  }))
+}

@@ -73,5 +73,15 @@ module "storage" {
   buckets    = var.buckets
 }
 
+module "templates" {
+  source     = "./modules/vmtemplate"
+  project_id=var.project_id
+  templates  = var.templates
+}
 
-
+module "gke_autopilot"{
+  source="./modules/gke_autopilot"
+  project_id=var.project_id
+  autopilot_cluster=var.autopilot_cluster
+  network= module.vpc.vpc_self_link
+}

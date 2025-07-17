@@ -117,3 +117,58 @@ buckets = [
     ]
   }
 ]
+
+
+templates = [
+  {
+    name                 = "template-1"
+    description          = "First instance template"
+    tags                 = ["web", "dev"]
+    labels               = { environment = "dev" }
+    instance_description = "Web Server Template"
+    machine_type         = "e2-medium"
+    project_id           = "your-project-id"
+    region               = "us-central1"
+
+    disks = [
+    {
+    source_image      = "projects/debian-cloud/global/images/family/debian-11"
+    auto_delete       = true
+    boot              = true
+    resource_policies = []
+     }
+    ]
+
+
+    scheduling = {
+      automatic_restart   = true
+      on_host_maintenance = "MIGRATE"
+    }
+
+    network_interfaces = [
+      {
+        network    = "default"
+        subnetwork = "default"
+      }
+    ]
+
+    service_account = {
+      email  = "865174948199-compute@developer.gserviceaccount.com"
+      scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+    }
+  }
+]
+
+autopilot_cluster = [
+  {
+    name                     = "autopilot-cluster-1"
+    location                 = "us-central1"
+    enterprise_config        = null
+    deletion_protection      = false
+    cluster_ipv4_cidr_block  = "/17"
+    services_ipv4_cidr_block = "/22"
+    subnetwork="subnet-1"
+  }
+]
+
+
