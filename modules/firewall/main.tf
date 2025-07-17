@@ -3,7 +3,7 @@ resource "google_compute_firewall" "rules" {
   for_each = { for rule in var.firewall_rules : rule.name => rule }
 
   name    = each.value.name
-  network = each.value.network
+  network = var.vpc_self_link
   project = var.project_id
 
   direction     = each.value.direction

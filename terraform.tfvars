@@ -24,7 +24,7 @@ subnets = [
 firewall_rules = [
   {
     name          = "allow-ssh"
-    network       = "terraform-testing-vpc"
+    #network       = "terraform-testing-vpc"
     direction     = "INGRESS"
     source_ranges = ["0.0.0.0/0"]
     allow = [
@@ -92,3 +92,28 @@ nats = [
 ]
 
 */
+
+buckets = [
+  {
+    name                        = "tf-dev-logs-bucket"
+    location                    = "US"
+    storage_class               = "STANDARD"
+    force_destroy               = true
+    versioning                  = true
+    uniform_bucket_level_access = true
+    labels = {
+      environment = "dev"
+      team        = "infra"
+    }
+    lifecycle_rules = [
+      {
+        action = {
+          type = "Delete"
+        }
+        condition = {
+          age = 30
+        }
+      }
+    ]
+  }
+]

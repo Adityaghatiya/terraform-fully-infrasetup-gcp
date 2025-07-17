@@ -25,6 +25,8 @@ module "firewall" {
   source         = "./modules/firewall"
   project_id     = var.project_id
   firewall_rules = var.firewall_rules
+  
+  vpc_self_link = module.vpc.vpc_self_link
 }
 
 module "cloudrouter" {
@@ -65,6 +67,11 @@ module "clouddns" {
 }
 
 
+module "storage" {
+  source     = "./modules/storage"
+  project_id = var.project_id
+  buckets    = var.buckets
+}
 
 
 

@@ -43,7 +43,7 @@ variable "firewall_rules" {
   description = "Firewall rules to create"
   type = list(object({
     name          = string
-    network       = string
+    #network       = string
     direction     = string
     source_ranges = list(string)
     allow = list(object({
@@ -98,5 +98,30 @@ variable "nats" {
       name                    = string
       source_ip_ranges_to_nat = list(string)
     })))
+  }))
+}
+
+variable "buckets" {
+  description = "List of GCS buckets to create"
+  type = list(object({
+    name                        = string
+    location                    = string
+    storage_class               = string
+    force_destroy               = bool
+    versioning                  = bool
+    uniform_bucket_level_access = bool
+    labels                      = map(string)
+    lifecycle_rules = optional(list(object({
+      action = object({
+        type          = string
+        storage_class = optional(string)
+      })
+      condition = object({
+        age                = optional(number)
+        created_before     = optional(string)
+        with_state         = optional(string)
+        num_newer_versions = optional(number)
+      })
+    })), [])
   }))
 }
