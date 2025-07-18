@@ -17,24 +17,21 @@ resource "google_compute_instance_group_manager" "instance_group" {
   description= each.value.description
 
   all_instances_config {
-    metadata = {
-      metadata_key =  each.value.metadata_key
-    }
-    labels = {
-      label_key = each.value.label_key
-    }
+    metadata = each.value.metadata
+    labels   = each.value.labels
   }
 
   #target_pools = [each.value.target_pools]
-  target_size  = each.value.target
+  target_size  = each.value.target_size
 
   named_port {
-    name = each.value.name
-    port =  each.value.port
+  name = each.value.named_port.name
+  port = each.value.named_port.port
   }
 
+
   auto_healing_policies {
-    health_check      = each.value
-    initial_delay_sec = each.value
+    health_check      = each.value.auto_healing_policies.health_check
+    initial_delay_sec = each.value.auto_healing_policies.initial_delay_sec
   }
 }

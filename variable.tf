@@ -189,19 +189,19 @@ variable "autohealing" {
 }
 
 
- vvariable "instance_groups" {
+ 
+variable "instance_group" {
+  description = "Instance group configurations"
   type = list(object({
-    name                = string
+    name               = string
     base_instance_name = string
     zone               = string
     instance_template  = string
     description        = string
-    target             = number
+    target_size        = number
 
-    all_instances_config = object({
-      metadata = map(string)
-      labels   = map(string)
-    })
+    metadata = map(string) #all instance config attributes Isko is way me likhna padega kyoki vo attribut is loop ke sath support nahi #kr raha
+    labels   = map(string)
 
     named_port = object({
       name = string
@@ -212,5 +212,55 @@ variable "autohealing" {
       health_check      = string
       initial_delay_sec = number
     })
+  }))
+}
+
+variable "log_sink" {
+  type = list(object({
+    name        = string
+    destination = string
+    disabled    = optional(bool)
+    filter      = optional(string)
+    exclusions  = optional(list(object({
+      name        = string
+      description = string
+      filter      = string
+    })))
+  }))
+}
+
+
+variable "backends" {
+  type = list(object({
+    name                  = string
+    protocol              = string
+    port_name             = string
+    load_balancing_scheme = string
+    timeout_sec           = number
+    enable_cdn            = bool
+    health_check          = string
+    backend_group         = string
+  }))
+}
+
+variable "staticip" {
+  description = "List of static IPs to reserve"
+  type = list(object({
+    name        = string
+    description = string
+  }))
+}
+
+variable "http_proxies" {
+  type = list(object({
+    name    = string
+    url_map = string
+  }))
+}
+
+variable "url_maps" {
+  type = list(object({
+    name             = string
+    default_backend  = string
   }))
 }

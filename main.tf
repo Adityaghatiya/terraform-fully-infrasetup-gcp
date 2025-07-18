@@ -95,3 +95,46 @@ module "instance_group"{
 source="./modules/managedgroup"
 instance_group=var.instance_group
 }
+
+module "logsink"{
+  source="./modules/logsink"
+
+  log_sink=var.log_sink
+}
+
+module "backend_service" {
+  source   = "./modules/loadbalancer/backend"
+  backends = var.backends
+}
+
+module "staticip"{
+   project_id = var.project_id
+  source="./modules/loadbalancer/reserved_ip"
+  staticip=var.staticip
+}
+
+module "forwarding_rule" {
+  source = "./modules/loadbalancer/forwarding_rule"
+
+  forwarding_rules = [
+    {
+      name                  = "global-forwarding-rule-1"
+      target_proxy          = "target-http-proxy-url"
+      port_range            = "80"
+      load_balancing_scheme = "EXTERNAL"
+      ip_protocol           = "TCP"
+     ip_address = "https://www.googleapis.com/compute/v1/projects/${var.project_id}/global/addresses/global-ip-1"
+
+    }
+  ]
+}
+
+module "target_proxy" {
+  source       = "./modules/loadbalancer/target_proxy"
+  http_proxies = var.http_proxies
+}
+
+module "url_map"{
+  source="./modules/loadbalancer/url_map"
+  url_maps=var.url_maps
+}
